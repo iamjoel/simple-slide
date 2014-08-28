@@ -9,7 +9,31 @@
 </head>
 
 <body>
-    <div class="demo-slide">
+    <div class="demo-slide" id = "scorllHorizontal">
+        <ul class="clearfix">
+            <li>
+                <a href="javascript:void(0);">
+                    <img src="imgs/1.jpg" class="slide-img">
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0);">
+                    <img src="imgs/2.jpg" class="slide-img">
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0);">
+                    <img src="imgs/3.jpg" class="slide-img">
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0);">
+                    <img src="imgs/4.jpg" class="slide-img">
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="demo-slide" id = "scorllVertical">
         <ul class="clearfix">
             <li>
                 <a href="javascript:void(0);">
@@ -37,9 +61,13 @@
     <script src="../jquery.simple-slide.js"></script>
     <script>
     $(document).ready(function() {
-        // $('.demo-slide').slide({
-        // 	interval: 2000
-        // });
+        $('#scorllHorizontal').simpleSlide({
+            interval: 2000
+        });
+        $('#scorllVertical').simpleSlide({
+            interval: 2000,
+            scrollDir: 'vertical'
+        });
     })
     </script>
 </body>
