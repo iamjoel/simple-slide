@@ -57,17 +57,68 @@
             </li>
         </ul>
     </div>
+    <div class="demo-slide scorllHorizontal" id = "scorllMulti">
+        <ul class="clearfix">
+            <li>
+                <a href="javascript:void(0);">
+                    <img src="imgs/1.jpg" class="slide-img">
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0);">
+                    <img src="imgs/2.jpg" class="slide-img">
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0);">
+                    <img src="imgs/3.jpg" class="slide-img">
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0);">
+                    <img src="imgs/4.jpg" class="slide-img">
+                </a>
+            </li>
+            <!-- <li>
+                <a href="javascript:void(0);">
+                    <img src="imgs/2.jpg" class="slide-img">
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0);">
+                    <img src="imgs/2.jpg" class="slide-img">
+                </a>
+            </li> -->
+           <!--  <li>
+                <a href="javascript:void(0);">
+                    <img src="imgs/3.jpg" class="slide-img">
+                </a>
+            </li> -->
+        </ul>
+    </div>
+    <div class="btn-wrap">
+        <a href="javascript:void(0);" id="prev-nav-btn" class="btn">上一张</a>
+        <a href="javascript:void(0);" id="next-nav-btn" class="btn">下一张</a>
+    </div>
     <script src="http://cdn.staticfile.org/jquery/1.11.1/jquery.min.js"></script>
     <script src="../jquery.simple-slide.js"></script>
     <script>
     $(document).ready(function() {
         $('#scorllHorizontal').simpleSlide({
-            interval: 2000
+            interval: 1000,
+            circle: false
         });
         $('#scorllVertical').simpleSlide({
-            interval: 2000,
+            interval: 1000,
             scrollDir: 'vertical'
         });
+        $('#scorllMulti').simpleSlide({
+            interval: 1000,
+            scrollNum: 2,
+            $prevBtn: $('#prev-nav-btn'),
+            $nextBtn: $('#next-nav-btn')
+        });
+
     })
     </script>
 </body>

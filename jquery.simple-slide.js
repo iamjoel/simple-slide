@@ -8,7 +8,7 @@
         $items: false, //中间幻灯的border的宽度
         $itemWrap: false,
         navType: 'dot', // 点状的。设置false则没有导航
-        circle: false, // 循环播放
+        circle: true, // 循环播放
         interval: false,
         $prevBtn: false,
         $nextBtn: false,
@@ -42,25 +42,64 @@
         $items.addClass('slide-item');
         this.$items = $items;
         this.itemSize = {
-            height: $items.height(),
-            width: $items.width()
+            width: $items.width() + parseInt($items.css('padding-right')),
+            height: $items.height() + parseInt($items.css('padding-bottom'))
+        };
+        this.nextItemWrapPos = {
+            left: $items.length * this.itemSize.width,
+            top: $items.length * this.itemSize.height
+        };
+        this.itemWrapSize = {
+            width: ($items.length + param.scrollNum) * this.itemSize.width,
+            height: ($items.length + param.scrollNum) * this.itemSize.height
         };
 
         this.locArr = this.getLocArr();
-        this.currIndex = 0;// 下标从0开始
+        this.currIndex = 0; // 下标从0开始
+        this.isHor = param.scrollDir === 'horizontal' || param.scrollDir === 'hor';
 
-        var $itemWrap = param.$itemWrap || $items.parent();
+        var $itemWrap1 = param.$itemWrap || $items.parent();
+        var $itemWrap2;
         if (param.scrollType === 'scroll' && param.circle) {
-            $itemWrap.after($itemWrap.clone());
+            $itemWrap1.css('z-index', 100);
+            $itemWrap1.append($items.not(':gt('+ (param.scrollNum - 1) +')').clone());
+            if (this.isHor) {
+                $itemWrap1.width(this.itemWrapSize.width);
+            } else {
+                $itemWrap1.height($items.length * this.itemSize.height);
+            }
+            $itemWrap2 = $itemWrap1.clone();
+            if (this.isHor) {
+                $itemWrap2.css({
+                    'left': this.nextItemWrapPos.left,
+                    'z-index': 99
+                });
+            } else {
+                $itemWrap2.css({
+                    'top': this.nextItemWrapPos.top,
+                    'z-index': 99
+                });
+            }
+            $itemWrap1.after($itemWrap2);
+            this.$itemWrap1 = $itemWrap1;
+            this.$itemWrap2 = $itemWrap2;
         }
-        this.$itemWrap = $itemWrap;
+
+        this.$itemWrap = $itemWrap1;
 
         this.initNav();
         if (param.interval && !isNaN(param.interval, 10)) {
             this.runId = this.start();
         }
-
-        $items.hover(function() {
+        var $stopOnElem = $('#not-exit-elem-123');
+        $stopOnElem = $stopOnElem.add($items);
+        if (param.$prevBtn) {
+            $stopOnElem = $stopOnElem.add(param.$prevBtn);
+        }
+        if (param.$nextBtn) {
+            $stopOnElem = $stopOnElem.add(param.$nextBtn);
+        }
+        $stopOnElem.hover(function() {
             if (self.runId) {
                 self.stop();
             }
@@ -68,7 +107,7 @@
             if (param.interval && !isNaN(param.interval, 10)) {
                 self.runId = self.start();
             }
-        })
+        });
     }
 
     $.extend(Plugin.prototype, {
@@ -89,7 +128,7 @@
                 default:
                     throw 'invalid scrollDir';
             }
-            for (var i = 0; i < len; i++) {
+            for (var i = 0; i < len + 1; i++) { // 最后一格是这一组幻灯的结尾
                 arr.push(i * step);
             }
             return arr;
@@ -100,11 +139,65 @@
             var param = this.param;
             index = this.getValidIndex(index);
             var currIndex = this.currIndex;
-            if (param.circle && param.scrollType === 'scroll') {
+            var animOpt = {};
+            var isHor = this.isHor;
+            // console.log('go to ' + index + ' prev ' + currIndex);
+            if (param.circle && param.scrollType === 'scroll' && index < currIndex) {
+                var $itemWrap1 = this.$itemWrap1;
+                var $itemWrap2 = this.$itemWrap2;
+                // if ($itemWrap1.index() > $itemWrap2.index()) {
+                //     var $temp = $itemWrap1;
+                //     $itemWrap1 = $itemWrap2;
+                //     $itemWrap2 = $itemWrap1;
+                //     console.log('error');
+                // }
+                var locLength = this.locArr.length;
+                if (isHor) {
+                    animOpt.left = this.locArr[locLength - 1];
+                } else {
+                    animOpt.top = this.locArr[locLength - 1];
+                }
+                if (isHor) {
+                    $itemWrap2.css('left', 0);
+                } else {
+                    $itemWrap2.css('top', 0);
+                }
+                // 上一组幻灯滚动到底
+                $itemWrap1.animate(animOpt, {
+                    done: function() {
+                        var $itemWrap3 = $itemWrap1.clone();
+                        $itemWrap1.remove();
+                        if (isHor) {
+                            $itemWrap3.css('left', self.nextItemWrapPos.left);
+                        } else {
+                            $itemWrap3.css('top', self.nextItemWrapPos.top);
+                        }
+                        $itemWrap2.css('z-index', 100);
+                        $itemWrap3.css('z-index', 99);
 
+                        $itemWrap2.after($itemWrap3);
+                        self.$itemWrap = $itemWrap2;
+                        self.$itemWrap1 = $itemWrap2;
+                        self.$itemWrap2 = $itemWrap3;
+                        animOpt = {};
+                        if (param.scrollType === 'scroll') {
+                            if (isHor) {
+                                animOpt.left = self.locArr[index];
+                            } else {
+                                animOpt.top = self.locArr[index];
+                            }
+                            // console.log(animOpt);
+                            // 继续滚到指定位置
+                            self.$itemWrap1.animate(animOpt, {
+                                done: function() {
+                                    self.currIndex = index;
+                                }
+                            });
+                        }
+                    }
+                });
             } else {
                 if (param.scrollType === 'scroll') {
-                    var animOpt = {};
                     if (param.scrollDir === 'horizontal' || param.scrollDir === 'hor') {
                         animOpt.left = this.locArr[index];
                     } else {

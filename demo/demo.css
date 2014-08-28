@@ -8,6 +8,11 @@
 .clearfix {
     *+height: 1%;
 }
+ul,li,img{
+	border: none;/*ie6下 img默认有边框。。。*/
+	padding: 0;
+	margin: 0;
+}
 .demo-slide {
     width: 580px;
     height: 145px;
@@ -18,14 +23,12 @@
 .demo-slide ul {
     position: absolute;
     top: 0;
-    left: 0;
+    /*left: 0;*/
     list-style: none;
-    margin: 0;
-    padding: 0;
     width: 580px;
     height: 145px;
 }
-#scorllHorizontal ul {
+#scorllHorizontal ul, .scorllHorizontal  ul{
     width: 5000px;
     /* 放足够多的图片 */
 }
@@ -37,4 +40,20 @@
     float: left;
     width: 580px;
     height: 145px;
+}
+
+#scorllMulti{
+	width: 1180px;
+}
+#scorllMulti ul li{
+	padding-right: 10px;
+}
+
+.btn-wrap{
+	text-align: center;
+}
+.btn-wrap .btn{
+	margin-right: 30px;
+	font-size: 18px;
+	color: #f60;
 }
