@@ -104,21 +104,22 @@
     <script src="../jquery.simple-slide.js"></script>
     <script>
     $(document).ready(function() {
-        $('#scorllHorizontal').simpleSlide({
-            interval: 1000,
-            circle: false
-        });
-        $('#scorllVertical').simpleSlide({
-            interval: 1000,
-            scrollDir: 'vertical'
-        });
+        // $('#scorllHorizontal').simpleSlide({
+        //     interval: 1000,
+        //     circle: false
+        // });
+        // $('#scorllVertical').simpleSlide({
+        //     interval: 1000,
+        //     scrollDir: 'vertical'
+        // });
         $('#scorllMulti').simpleSlide({
             interval: 1000,
-            scrollNum: 2,
+            scrollNum: 1,
+            circle: true,
             nav: 'dot',
             $prevBtn: $('#prev-nav-btn'),
             $nextBtn: $('#next-nav-btn'),
-            circle: false,
+            circle: true,
             prevDisabledFn: function(){
                 console.log('prev disabled');
             }, nextDisabledFn: function(){

@@ -21,7 +21,7 @@
 
     var navTemplate = {
         dot: {
-            getWrap: function(){
+            getWrap: function() {
                 var $wrap = $('<div>');
                 $wrap.addClass('simple-slide-nav dot-nav').append('<ul class="clearfix"></ul>');
                 return $wrap;
@@ -55,6 +55,10 @@
 
         $items.addClass('slide-item');
         this.$items = $items;
+        $items.each(function() {
+            var $this = $(this);
+            $this.attr('data-id', $this.index());
+        });
         this.itemSize = {
             width: $items.width() + parseInt($items.css('padding-right')),
             height: $items.height() + parseInt($items.css('padding-bottom'))
@@ -68,42 +72,14 @@
             height: ($items.length + param.scrollNum) * this.itemSize.height
         };
 
-
-
         this.locArr = this.getLocArr();
         this.isHor = param.scrollDir === 'horizontal' || param.scrollDir === 'hor';
 
-        var $itemWrap1 = param.$itemWrap || $items.parent();
-        var $itemWrap2;
-        if (param.scrollType === 'scroll' && param.circle) {
-            $itemWrap1.css('z-index', 100);
-            $itemWrap1.append($items.not(':gt(' + (param.scrollNum - 1) + ')').clone(true));
-            if (this.isHor) {
-                $itemWrap1.width(this.itemWrapSize.width);
-            } else {
-                $itemWrap1.height($items.length * this.itemSize.height);
-            }
-            $itemWrap2 = $itemWrap1.clone(true);
-            if (this.isHor) {
-                $itemWrap2.css({
-                    'left': this.nextItemWrapPos.left,
-                    'z-index': 99
-                });
-            } else {
-                $itemWrap2.css({
-                    'top': this.nextItemWrapPos.top,
-                    'z-index': 99
-                });
-            }
-            $itemWrap1.after($itemWrap2);
-            this.$itemWrap1 = $itemWrap1;
-            this.$itemWrap2 = $itemWrap2;
-        }
 
-        this.$itemWrap = $itemWrap1;
+        this.$itemWrap = param.$itemWrap || $items.parent();
 
         this.initNavBtn();
-        if(param.nav){
+        if (param.nav) {
             this.makeNav();
         }
         this.setCurrentIndex(0); // 下标从0开始
@@ -119,7 +95,7 @@
         if (param.$nextBtn) {
             $stopOnElem = $stopOnElem.add(param.$nextBtn);
         }
-        if(param.nav){
+        if (param.nav) {
             $stopOnElem = $stopOnElem.add($el.find('.simple-slide-nav li'));
         }
         $stopOnElem.hover(function() {
@@ -157,74 +133,67 @@
             return arr;
         },
         // 第一张是0
-        turnTo: function(index) {
+        turnTo: function(index, dir) {
+            dir = dir || 'next'; // 转动方向
             var self = this;
             var param = this.param;
             index = this.getValidIndex(index);
             var currIndex = this.currIndex;
+            if (index === currIndex) {
+                return;
+            }
+            // this.$itemWrap.clearQueue();
             var animOpt = {};
             var isHor = this.isHor;
             // console.log('go to ' + index + ' prev ' + currIndex);
-            if (param.circle && param.scrollType === 'scroll' && index < currIndex) {
-                var $itemWrap1 = this.$itemWrap1;
-                var $itemWrap2 = this.$itemWrap2;
-                // if ($itemWrap1.index() > $itemWrap2.index()) {
-                //     var $temp = $itemWrap1;
-                //     $itemWrap1 = $itemWrap2;
-                //     $itemWrap2 = $itemWrap1;
-                //     console.log('error');
-                // }
-                var locLength = this.locArr.length;
-                if (isHor) {
-                    animOpt.left = this.locArr[locLength - 1];
-                } else {
-                    animOpt.top = this.locArr[locLength - 1];
-                }
-                if (isHor) {
-                    $itemWrap2.css('left', 0);
-                } else {
-                    $itemWrap2.css('top', 0);
-                }
-                // 上一组幻灯滚动到底
-                $itemWrap1.animate(animOpt, {
-                    done: function() {
-                        var $itemWrap3 = $itemWrap1.clone(true);
-                        $itemWrap1.remove();
-                        if (isHor) {
-                            $itemWrap3.css('left', self.nextItemWrapPos.left);
-                        } else {
-                            $itemWrap3.css('top', self.nextItemWrapPos.top);
-                        }
-                        $itemWrap2.css('z-index', 100);
-                        $itemWrap3.css('z-index', 99);
-
-                        $itemWrap2.after($itemWrap3);
-                        self.$itemWrap = $itemWrap2;
-                        self.$itemWrap1 = $itemWrap2;
-                        self.$itemWrap2 = $itemWrap3;
-                        animOpt = {};
-                        if (param.scrollType === 'scroll') {
-                            if (isHor) {
-                                animOpt.left = self.locArr[index];
-                            } else {
-                                animOpt.top = self.locArr[index];
-                            }
-                            // console.log(animOpt);
-                            // 继续滚到指定位置
-                            self.$itemWrap1.animate(animOpt, {
-                                done: function() {
-                                    self.setCurrentIndex(index);
-                                },
-                                fail: function() {
-                                    console.log('fail');
-                                }
-                            });
-                        }
-                    },
-                    fail: function() {
-                        console.log('fail');
+            if (param.circle && param.scrollType === 'scroll') {
+                var scrollToIndex = parseInt(this.$items.filter('[data-id=' + index + ']').index(), 10);
+                this.$items = this.$el.find('.slide-item');
+                if (dir === 'next') {
+                    var $scroll = this.$items.filter(':lt(' + scrollToIndex + ')');
+                    this.$itemWrap.append($scroll.clone(true));
+                    if (isHor) {
+                        animOpt.left = this.locArr[scrollToIndex];
+                    } else {
+                        animOpt.top = this.locArr[scrollToIndex];
                     }
-                });
+                    // this.$itemWrap.clearQueue();
+                    this.$itemWrap.animate(animOpt, {
+                        done: function() {
+                            var endPos = {};
+                            if (isHor) {
+                                endPos.left = 0;
+                            } else {
+                                endPos.top = 0;
+                            }
+                            $scroll.remove();
+                            self.$itemWrap.css(endPos);
+                            self.setCurrentIndex(index);
+                        }
+                    });
+                } else {
+                    var $scroll = this.$items.filter(':gt(' + (scrollToIndex - 1) + ')');
+                    var tempPos= {};
+                    this.$itemWrap.prepend($scroll);
+                    if(isHor){
+                        tempPos.left = this.locArr[$scroll.length];
+                    } else {
+                        tempPos.top = this.locArr[$scroll.length];
+                    }
+                    this.$itemWrap.css(tempPos);
+                    if (isHor) {
+                        animOpt.left = 0;
+                    } else {
+                        animOpt.top = 0;
+                    }
+                    // this.$itemWrap.clearQueue();
+                    this.$itemWrap.animate(animOpt, {
+                        done: function() {
+                            // $scroll.remove();
+                            self.setCurrentIndex(index);
+                        }
+                    });
+                }
             } else {
                 if (param.scrollType === 'scroll') {
                     if (param.scrollDir === 'horizontal' || param.scrollDir === 'hor') {
@@ -232,12 +201,10 @@
                     } else {
                         animOpt.top = this.locArr[index];
                     }
+                    // this.$itemWrap.clearQueue();
                     this.$itemWrap.animate(animOpt, {
                         done: function() {
                             self.setCurrentIndex(index);
-                        },
-                        fail: function() {
-                            console.log('fail');
                         }
                     });
                 }
@@ -249,21 +216,22 @@
         turnNext: function() {
             this.turn('next');
         },
-        setCurrentIndex: function(currIndex){
+        setCurrentIndex: function(currIndex) {
             this.currIndex = currIndex;
-            if(this.param.nav){
+            if (this.param.nav) {
                 var $navs = this.$el.find('.simple-slide-nav li');
                 $navs.removeClass('current');
-                $navs.eq(currIndex/this.param.scrollNum).addClass('current');
+                console.log(currIndex / this.param.scrollNum);
+                $navs.eq(currIndex / this.param.scrollNum).addClass('current');
             }
         },
         turn: function(dir) {
-            var dir = dir === 'prev' ? -1 : 1;
-            var turnToIndex = this.currIndex + dir * this.param.scrollNum;
+            var fix = dir === 'prev' ? -1 : 1;
+            var turnToIndex = this.currIndex + fix * this.param.scrollNum;
             if (!this.param.circle) {
                 var canTurn = turnToIndex === this.getValidIndex(turnToIndex);
                 if (canTurn) {
-                    this.turnTo(turnToIndex);
+                    this.turnTo(turnToIndex, dir);
                 } else {
                     if (dir === -1) {
                         this.param.prevDisabledFn();
@@ -272,7 +240,7 @@
                     }
                 }
             } else {
-                this.turnTo(turnToIndex);
+                this.turnTo(turnToIndex, dir);
             }
         },
         makeNav: function() {
@@ -283,12 +251,12 @@
             var $wrap = template.getWrap();
             var makeItem = template.makeItem;
             var itemHtml = [];
-            for (var i = 0; i < this.$items.length/param.scrollNum; i++) {
+            for (var i = 0; i < this.$items.length / param.scrollNum; i++) {
                 itemHtml.push(makeItem(i));
             }
             $wrap.find('ul').html(itemHtml.join(''));
             this.$itemWrap.after($wrap);
-            $wrap.find('li').hover(function(){
+            $wrap.find('li').hover(function() {
                 self.turnTo($(this).index() * param.scrollNum);
             });
         },
@@ -313,14 +281,22 @@
         initNavBtn: function() {
             var self = this;
             var param = this.param;
+            var runPrevId;
+            var runNextId;
             if (param.$prevBtn) {
                 param.$prevBtn.click(function() {
-                    self.turnPrev();
+                    clearTimeout(runPrevId);
+                    runPrevId = setTimeout(function(){
+                        self.turnPrev();
+                    }, 200);
                 });
             }
             if (param.$nextBtn) {
                 param.$nextBtn.click(function() {
-                    self.turnNext();
+                    clearTimeout(runNextId);
+                    runNextId = setTimeout(function(){
+                        self.turnNext();
+                    }, 200);
                 });
             }
         },
@@ -328,13 +304,13 @@
             var self = this;
             var param = this.param;
             return setInterval(function() {
-                if(param.circle){
+                if (param.circle) {
                     self.turnNext();
-                } else{
+                } else {
                     var nextIndex = self.currIndex + param.scrollNum;
-                    if(nextIndex === self.getValidIndex(nextIndex)){
+                    if (nextIndex === self.getValidIndex(nextIndex)) {
                         self.turnNext();
-                    } else{
+                    } else {
                         self.turnTo(0);
                     }
                 }
