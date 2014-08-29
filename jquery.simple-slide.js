@@ -166,9 +166,11 @@
                             } else {
                                 endPos.top = 0;
                             }
-                            $scroll.remove();
                             self.$itemWrap.css(endPos);
                             self.setCurrentIndex(index);
+                        },
+                        always: function(){
+                            $scroll.remove();
                         }
                     });
                 } else {
@@ -221,7 +223,7 @@
             if (this.param.nav) {
                 var $navs = this.$el.find('.simple-slide-nav li');
                 $navs.removeClass('current');
-                console.log(currIndex / this.param.scrollNum);
+                // console.log(currIndex / this.param.scrollNum);
                 $navs.eq(currIndex / this.param.scrollNum).addClass('current');
             }
         },
@@ -256,8 +258,12 @@
             }
             $wrap.find('ul').html(itemHtml.join(''));
             this.$itemWrap.after($wrap);
+            var hoverRunId;
             $wrap.find('li').hover(function() {
-                self.turnTo($(this).index() * param.scrollNum);
+                clearTimeout(hoverRunId);
+                // hoverRunId = setTimeout(function(){
+                    self.turnTo($(this).index() * param.scrollNum);
+                // }, 100);
             });
         },
         getValidIndex: function(index) {
