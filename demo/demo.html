@@ -10,7 +10,7 @@
 
 <body>
     <div class="demo-slide" id = "scorllHorizontal">
-        <ul class="clearfix">
+        <ul class="clearfix item-wrap">
             <li>
                 <a href="javascript:void(0);">
                     <img src="imgs/1.jpg" class="slide-img">
@@ -34,7 +34,7 @@
         </ul>
     </div>
     <div class="demo-slide" id = "scorllVertical">
-        <ul class="clearfix">
+        <ul class="clearfix item-wrap">
             <li>
                 <a href="javascript:void(0);">
                     <img src="imgs/1.jpg" class="slide-img">
@@ -58,7 +58,7 @@
         </ul>
     </div>
     <div class="demo-slide scorllHorizontal" id = "scorllMulti">
-        <ul class="clearfix">
+        <ul class="clearfix  item-wrap">
             <li>
                 <a href="javascript:void(0);">
                     <img src="imgs/1.jpg" class="slide-img">
@@ -115,8 +115,15 @@
         $('#scorllMulti').simpleSlide({
             interval: 1000,
             scrollNum: 2,
+            nav: 'dot',
             $prevBtn: $('#prev-nav-btn'),
-            $nextBtn: $('#next-nav-btn')
+            $nextBtn: $('#next-nav-btn'),
+            circle: false,
+            prevDisabledFn: function(){
+                console.log('prev disabled');
+            }, nextDisabledFn: function(){
+                console.log('right disabled');
+            }
         });
 
     })

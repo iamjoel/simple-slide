@@ -7,16 +7,30 @@
     var defaultParam = {
         $items: false, //中间幻灯的border的宽度
         $itemWrap: false,
-        navType: 'dot', // 点状的。设置false则没有导航
-        circle: true, // 循环播放
+        nav: false, // dot 点状的。设置false则没有导航
+        circle: false, // 循环播放
         interval: false,
         $prevBtn: false,
         $nextBtn: false,
         scrollNum: 1, //滚动条目数
         scrollType: 'scroll', // 还支持fade
-        scrollDir: 'horizontal' //水平，垂直 vertical
-
+        scrollDir: 'horizontal', //水平，垂直 vertical
+        prevDisabledFn: emptyFn, // 向前到底时 circle为false时有效
+        nextDisabledFn: emptyFn //向后到底时
     };
+
+    var navTemplate = {
+        dot: {
+            getWrap: function(){
+                var $wrap = $('<div>');
+                $wrap.addClass('simple-slide-nav dot-nav').append('<ul class="clearfix"></ul>');
+                return $wrap;
+            },
+            makeItem: function() {
+                return '<li><a href="javascript:void(0);"></a></li>';
+            }
+        }
+    }
 
     function Plugin($el, option) {
         var self = this;
@@ -54,21 +68,22 @@
             height: ($items.length + param.scrollNum) * this.itemSize.height
         };
 
+
+
         this.locArr = this.getLocArr();
-        this.currIndex = 0; // 下标从0开始
         this.isHor = param.scrollDir === 'horizontal' || param.scrollDir === 'hor';
 
         var $itemWrap1 = param.$itemWrap || $items.parent();
         var $itemWrap2;
         if (param.scrollType === 'scroll' && param.circle) {
             $itemWrap1.css('z-index', 100);
-            $itemWrap1.append($items.not(':gt('+ (param.scrollNum - 1) +')').clone());
+            $itemWrap1.append($items.not(':gt(' + (param.scrollNum - 1) + ')').clone(true));
             if (this.isHor) {
                 $itemWrap1.width(this.itemWrapSize.width);
             } else {
                 $itemWrap1.height($items.length * this.itemSize.height);
             }
-            $itemWrap2 = $itemWrap1.clone();
+            $itemWrap2 = $itemWrap1.clone(true);
             if (this.isHor) {
                 $itemWrap2.css({
                     'left': this.nextItemWrapPos.left,
@@ -87,7 +102,12 @@
 
         this.$itemWrap = $itemWrap1;
 
-        this.initNav();
+        this.initNavBtn();
+        if(param.nav){
+            this.makeNav();
+        }
+        this.setCurrentIndex(0); // 下标从0开始
+
         if (param.interval && !isNaN(param.interval, 10)) {
             this.runId = this.start();
         }
@@ -98,6 +118,9 @@
         }
         if (param.$nextBtn) {
             $stopOnElem = $stopOnElem.add(param.$nextBtn);
+        }
+        if(param.nav){
+            $stopOnElem = $stopOnElem.add($el.find('.simple-slide-nav li'));
         }
         $stopOnElem.hover(function() {
             if (self.runId) {
@@ -165,7 +188,7 @@
                 // 上一组幻灯滚动到底
                 $itemWrap1.animate(animOpt, {
                     done: function() {
-                        var $itemWrap3 = $itemWrap1.clone();
+                        var $itemWrap3 = $itemWrap1.clone(true);
                         $itemWrap1.remove();
                         if (isHor) {
                             $itemWrap3.css('left', self.nextItemWrapPos.left);
@@ -190,10 +213,16 @@
                             // 继续滚到指定位置
                             self.$itemWrap1.animate(animOpt, {
                                 done: function() {
-                                    self.currIndex = index;
+                                    self.setCurrentIndex(index);
+                                },
+                                fail: function() {
+                                    console.log('fail');
                                 }
                             });
                         }
+                    },
+                    fail: function() {
+                        console.log('fail');
                     }
                 });
             } else {
@@ -205,17 +234,63 @@
                     }
                     this.$itemWrap.animate(animOpt, {
                         done: function() {
-                            self.currIndex = index;
+                            self.setCurrentIndex(index);
+                        },
+                        fail: function() {
+                            console.log('fail');
                         }
                     });
                 }
             }
         },
         turnPrev: function() {
-            this.turnTo(this.currIndex - this.param.scrollNum);
+            this.turn('prev');
         },
         turnNext: function() {
-            this.turnTo(this.currIndex + this.param.scrollNum);
+            this.turn('next');
+        },
+        setCurrentIndex: function(currIndex){
+            this.currIndex = currIndex;
+            if(this.param.nav){
+                var $navs = this.$el.find('.simple-slide-nav li');
+                $navs.removeClass('current');
+                $navs.eq(currIndex/this.param.scrollNum).addClass('current');
+            }
+        },
+        turn: function(dir) {
+            var dir = dir === 'prev' ? -1 : 1;
+            var turnToIndex = this.currIndex + dir * this.param.scrollNum;
+            if (!this.param.circle) {
+                var canTurn = turnToIndex === this.getValidIndex(turnToIndex);
+                if (canTurn) {
+                    this.turnTo(turnToIndex);
+                } else {
+                    if (dir === -1) {
+                        this.param.prevDisabledFn();
+                    } else {
+                        this.param.nextDisabledFn();
+                    }
+                }
+            } else {
+                this.turnTo(turnToIndex);
+            }
+        },
+        makeNav: function() {
+            var self = this;
+            var param = this.param;
+            var type = param.nav;
+            var template = navTemplate[type];
+            var $wrap = template.getWrap();
+            var makeItem = template.makeItem;
+            var itemHtml = [];
+            for (var i = 0; i < this.$items.length/param.scrollNum; i++) {
+                itemHtml.push(makeItem(i));
+            }
+            $wrap.find('ul').html(itemHtml.join(''));
+            this.$itemWrap.after($wrap);
+            $wrap.find('li').hover(function(){
+                self.turnTo($(this).index() * param.scrollNum);
+            });
         },
         getValidIndex: function(index) {
             var preIndex = index;
@@ -235,7 +310,7 @@
             // }
             return true;
         },
-        initNav: function() {
+        initNavBtn: function() {
             var self = this;
             var param = this.param;
             if (param.$prevBtn) {
@@ -251,8 +326,18 @@
         },
         start: function() {
             var self = this;
+            var param = this.param;
             return setInterval(function() {
-                self.turnNext();
+                if(param.circle){
+                    self.turnNext();
+                } else{
+                    var nextIndex = self.currIndex + param.scrollNum;
+                    if(nextIndex === self.getValidIndex(nextIndex)){
+                        self.turnNext();
+                    } else{
+                        self.turnTo(0);
+                    }
+                }
             }, this.param.interval);
         },
         stop: function() {

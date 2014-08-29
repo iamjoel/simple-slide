@@ -1,1 +1,38 @@
-
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden
+}
+.clearfix {
+    *+height: 1%;
+}
+.simple-slide-nav{
+	position: absolute;
+	bottom: 10px;
+	right: 20px;
+	z-index: 200;
+}
+.simple-slide-nav ul{
+	list-style: none;
+	float: left;
+}
+.simple-slide .dot-nav{
+	height: 10px;
+	_overflow: hidden;
+}
+.simple-slide .dot-nav li{
+	float: left;
+}
+.simple-slide .dot-nav a{
+	display: block;
+	background: #fff;
+	margin-right: 5px;
+	height: 10px;
+	width: 10px;
+	border-radius: 5px;
+}
+.simple-slide .dot-nav .current a{
+	background: #f60;
+}

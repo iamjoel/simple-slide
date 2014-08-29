@@ -20,7 +20,7 @@ ul,li,img{
     margin: 20px auto;
     position: relative;
 }
-.demo-slide ul {
+.demo-slide .item-wrap {
     position: absolute;
     top: 0;
     /*left: 0;*/
@@ -28,15 +28,15 @@ ul,li,img{
     width: 580px;
     height: 145px;
 }
-#scorllHorizontal ul, .scorllHorizontal  ul{
+#scorllHorizontal .item-wrap, .scorllHorizontal .item-wrap{
     width: 5000px;
     /* 放足够多的图片 */
 }
-#scorllVertical ul {
+#scorllVertical .item-wrap {
     height: 5000px;
     /* 放足够多的图片 */
 }
-.demo-slide ul li {
+.demo-slide .item-wrap li {
     float: left;
     width: 580px;
     height: 145px;
@@ -45,7 +45,7 @@ ul,li,img{
 #scorllMulti{
 	width: 1180px;
 }
-#scorllMulti ul li{
+#scorllMulti .item-wrap li{
 	padding-right: 10px;
 }
 
