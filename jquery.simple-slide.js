@@ -29,7 +29,17 @@
             makeItem: function() {
                 return '<li><a href="javascript:void(0);"></a></li>';
             }
-        }
+        },
+        number: {
+            getWrap: function() {
+                var $wrap = $('<div>');
+                $wrap.addClass('simple-slide-nav number-nav').append('<ul class="clearfix"></ul>');
+                return $wrap;
+            },
+            makeItem: function(num) {
+                return '<li><a href="javascript:void(0);">{num}</a></li>'.replace('{num}', num);
+            }
+        },
     }
 
     function Plugin($el, option) {
@@ -133,10 +143,10 @@
             }
             return arr;
         },
-        animDone : function(){
+        animDone: function() {
             // console.log('anim done');
             this.isAnim = false;
-            if(this.nextAnimParam){
+            if (this.nextAnimParam) {
                 this.turnTo.apply(this, this.nextAnimParam);
                 this.nextAnimParam = false;
             }
@@ -144,7 +154,7 @@
         // 第一张是0
         turnTo: function(index, dir) {
             var self = this;
-            if(this.isAnim){
+            if (this.isAnim) {
                 this.nextAnimParam = [].slice.call(arguments, 0);
                 return;
             }
@@ -152,7 +162,7 @@
             var param = this.param;
             index = this.getValidIndex(index);
             var currIndex = this.currIndex;
-            if(index === currIndex){
+            if (index === currIndex) {
                 return;
             }
 
@@ -185,16 +195,16 @@
                             self.$itemWrap.css(endPos);
                             self.setCurrentIndex(index);
                         },
-                        always: function(){
+                        always: function() {
                             $scroll.remove();
                             self.animDone();
                         }
                     });
                 } else { // 反方向滚动
                     var $scroll = this.$items.filter(':gt(' + (scrollToIndex - 1) + ')');
-                    var tempPos= {};
+                    var tempPos = {};
                     this.$itemWrap.prepend($scroll);
-                    if(isHor){
+                    if (isHor) {
                         tempPos.left = this.locArr[$scroll.length];
                     } else {
                         tempPos.top = this.locArr[$scroll.length];
@@ -211,7 +221,7 @@
                             // $scroll.remove();
                             self.setCurrentIndex(index);
                         },
-                        always: function(){
+                        always: function() {
                             self.animDone();
                         }
                     });
@@ -228,7 +238,7 @@
                         done: function() {
                             self.setCurrentIndex(index);
                         },
-                        always: function(){
+                        always: function() {
                             self.animDone();
                         }
                     });
@@ -277,7 +287,7 @@
             var makeItem = template.makeItem;
             var itemHtml = [];
             for (var i = 0; i < this.$items.length / param.scrollNum; i++) {
-                itemHtml.push(makeItem(i));
+                itemHtml.push(makeItem(i + 1));
             }
             $wrap.find('ul').html(itemHtml.join(''));
             this.$itemWrap.after($wrap);
@@ -311,7 +321,7 @@
             if (param.$prevBtn) {
                 param.$prevBtn.click(function() {
                     clearTimeout(runPrevId);
-                    runPrevId = setTimeout(function(){
+                    runPrevId = setTimeout(function() {
                         self.turnPrev();
                     }, 200);
                 });
@@ -319,7 +329,7 @@
             if (param.$nextBtn) {
                 param.$nextBtn.click(function() {
                     clearTimeout(runNextId);
-                    runNextId = setTimeout(function(){
+                    runNextId = setTimeout(function() {
                         self.turnNext();
                     }, 200);
                 });

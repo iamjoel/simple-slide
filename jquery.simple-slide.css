@@ -18,6 +18,8 @@
 	list-style: none;
 	float: left;
 }
+
+
 .simple-slide .dot-nav{
 	height: 10px;
 	_overflow: hidden;
@@ -35,4 +37,29 @@
 }
 .simple-slide .dot-nav .current a{
 	background: #f60;
+}
+
+
+.simple-slide .number-nav{
+	height: 10px;
+	_overflow: hidden;
+}
+.simple-slide .number-nav li{
+	float: left;
+}
+.simple-slide .number-nav a{
+	display: block;
+	background: #fff;
+	margin-right: 5px;
+	height: 16px;
+	line-height: 16px;
+	width: 16px;
+	color: #333;
+	text-align: center;
+	text-decoration: none;
+	font-size: 12px;
+}
+.simple-slide .number-nav .current a{
+	background: #f60;
+	color: #fff;
 }

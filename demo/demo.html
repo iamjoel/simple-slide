@@ -33,6 +33,30 @@
             </li>
         </ul>
     </div>
+      <div class="demo-slide" id = "scorllHorizontal2">
+        <ul class="clearfix item-wrap">
+            <li>
+                <a href="javascript:void(0);">
+                    <img src="imgs/1.jpg" class="slide-img">
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0);">
+                    <img src="imgs/2.jpg" class="slide-img">
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0);">
+                    <img src="imgs/3.jpg" class="slide-img">
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0);">
+                    <img src="imgs/4.jpg" class="slide-img">
+                </a>
+            </li>
+        </ul>
+    </div>
     <div class="demo-slide" id = "scorllVertical">
         <ul class="clearfix item-wrap">
             <li>
@@ -128,10 +152,17 @@
     <script src="../jquery.simple-slide.js"></script>
     <script>
     $(document).ready(function() {
+        // 普通的
         $('#scorllHorizontal').simpleSlide({
             interval: 1000,
             circle: false,
             nav: 'dot'
+        });
+        // 导航为方块的
+        $('#scorllHorizontal2').simpleSlide({
+            interval: 1000,
+            circle: false,
+            nav: 'number'
         });
         $('#scorllVertical').simpleSlide({
             interval: 1000,

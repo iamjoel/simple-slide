@@ -28,7 +28,7 @@ ul,li,img{
     width: 580px;
     height: 145px;
 }
-#scorllHorizontal .item-wrap, .scorllHorizontal .item-wrap{
+#scorllHorizontal .item-wrap,#scorllHorizontal2 .item-wrap, .scorllHorizontal .item-wrap{
     width: 5000px;
     /* 放足够多的图片 */
 }
