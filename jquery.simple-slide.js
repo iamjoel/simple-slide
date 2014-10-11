@@ -46,6 +46,9 @@
         }
         $el.addClass('simple-slide');
 
+        // 做完一次动画后，做最近的一次
+        this.isAnim = false;
+
         var $items;
         if (param.$items) {
             $items = $el.find(param.$items);
@@ -99,9 +102,7 @@
             $stopOnElem = $stopOnElem.add($el.find('.simple-slide-nav li'));
         }
         $stopOnElem.hover(function() {
-            if (self.runId) {
-                self.stop();
-            }
+            self.stop();
         }, function() {
             if (param.interval && !isNaN(param.interval, 10)) {
                 self.runId = self.start();
@@ -132,23 +133,39 @@
             }
             return arr;
         },
+        animDone : function(){
+            // console.log('anim done');
+            this.isAnim = false;
+            if(this.nextAnimParam){
+                this.turnTo.apply(this, this.nextAnimParam);
+                this.nextAnimParam = false;
+            }
+        },
         // 第一张是0
         turnTo: function(index, dir) {
-            dir = dir || 'next'; // 转动方向
             var self = this;
+            if(this.isAnim){
+                this.nextAnimParam = [].slice.call(arguments, 0);
+                return;
+            }
+
             var param = this.param;
             index = this.getValidIndex(index);
             var currIndex = this.currIndex;
-            if (index === currIndex) {
+            if(index === currIndex){
                 return;
             }
-            // this.$itemWrap.clearQueue();
+
+            this.isAnim = true;
+            dir = dir || 'next'; // 转动方向
+
             var animOpt = {};
             var isHor = this.isHor;
             // console.log('go to ' + index + ' prev ' + currIndex);
-            if (param.circle && param.scrollType === 'scroll') {
-                var scrollToIndex = parseInt(this.$items.filter('[data-id=' + index + ']').index(), 10);
+            if (param.circle && param.scrollType === 'scroll') { // 循环
                 this.$items = this.$el.find('.slide-item');
+                var scrollToIndex = this.$items.index(this.$items.filter('[data-id=' + index + ']'));
+                // console.log('scrollTo %s,before has : %s',index, scrollToIndex);
                 if (dir === 'next') {
                     var $scroll = this.$items.filter(':lt(' + scrollToIndex + ')');
                     this.$itemWrap.append($scroll.clone(true));
@@ -157,7 +174,6 @@
                     } else {
                         animOpt.top = this.locArr[scrollToIndex];
                     }
-                    // this.$itemWrap.clearQueue();
                     this.$itemWrap.animate(animOpt, {
                         done: function() {
                             var endPos = {};
@@ -171,9 +187,10 @@
                         },
                         always: function(){
                             $scroll.remove();
+                            self.animDone();
                         }
                     });
-                } else {
+                } else { // 反方向滚动
                     var $scroll = this.$items.filter(':gt(' + (scrollToIndex - 1) + ')');
                     var tempPos= {};
                     this.$itemWrap.prepend($scroll);
@@ -193,6 +210,9 @@
                         done: function() {
                             // $scroll.remove();
                             self.setCurrentIndex(index);
+                        },
+                        always: function(){
+                            self.animDone();
                         }
                     });
                 }
@@ -207,6 +227,9 @@
                     this.$itemWrap.animate(animOpt, {
                         done: function() {
                             self.setCurrentIndex(index);
+                        },
+                        always: function(){
+                            self.animDone();
                         }
                     });
                 }
@@ -258,12 +281,8 @@
             }
             $wrap.find('ul').html(itemHtml.join(''));
             this.$itemWrap.after($wrap);
-            var hoverRunId;
             $wrap.find('li').hover(function() {
-                clearTimeout(hoverRunId);
-                // hoverRunId = setTimeout(function(){
-                    self.turnTo($(this).index() * param.scrollNum);
-                // }, 100);
+                self.turnTo($(this).index() * param.scrollNum);
             });
         },
         getValidIndex: function(index) {

@@ -79,21 +79,45 @@
                     <img src="imgs/4.jpg" class="slide-img">
                 </a>
             </li>
-            <!-- <li>
+        </ul>
+    </div>
+    <div class="btn-wrap">
+        <a href="javascript:void(0);" id="prev-nav-btn2" class="btn">上一张</a>
+        <a href="javascript:void(0);" id="next-nav-btn2" class="btn">下一张</a>
+    </div>
+
+    <div class="demo-slide scorllHorizontal" id = "scorllMulti2">
+        <ul class="clearfix  item-wrap">
+            <li>
                 <a href="javascript:void(0);">
-                    <img src="imgs/2.jpg" class="slide-img">
+                    <img src="imgs/1.jpg" class="slide-img">
                 </a>
             </li>
             <li>
                 <a href="javascript:void(0);">
                     <img src="imgs/2.jpg" class="slide-img">
                 </a>
-            </li> -->
-           <!--  <li>
+            </li>
+            <li>
                 <a href="javascript:void(0);">
                     <img src="imgs/3.jpg" class="slide-img">
                 </a>
-            </li> -->
+            </li>
+            <li>
+                <a href="javascript:void(0);">
+                    <img src="imgs/4.jpg" class="slide-img">
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0);">
+                    <img src="imgs/2.jpg" class="slide-img">
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0);">
+                    <img src="imgs/4.jpg" class="slide-img">
+                </a>
+            </li>
         </ul>
     </div>
     <div class="btn-wrap">
@@ -120,6 +144,21 @@
             nav: 'dot',
             $prevBtn: $('#prev-nav-btn'),
             $nextBtn: $('#next-nav-btn'),
+            circle: true,
+            prevDisabledFn: function(){
+                console.log('prev disabled');
+            }, nextDisabledFn: function(){
+                console.log('right disabled');
+            }
+        });
+        // 和上面的区别是，1次两张
+        $('#scorllMulti2').simpleSlide({
+            interval: 2000,
+            scrollNum: 2,
+            circle: true,
+            nav: 'dot',
+            $prevBtn: $('#prev-nav-btn2'),
+            $nextBtn: $('#next-nav-btn2'),
             circle: true,
             prevDisabledFn: function(){
                 console.log('prev disabled');

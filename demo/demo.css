@@ -42,10 +42,10 @@ ul,li,img{
     height: 145px;
 }
 
-#scorllMulti{
+#scorllMulti, #scorllMulti2{
 	width: 1180px;
 }
-#scorllMulti .item-wrap li{
+#scorllMulti .item-wrap li, #scorllMulti2 .item-wrap li{
 	padding-right: 10px;
 }
 
