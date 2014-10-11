@@ -39,8 +39,8 @@
             makeItem: function(num) {
                 return '<li><a href="javascript:void(0);">{num}</a></li>'.replace('{num}', num);
             }
-        },
-    }
+        }
+    };
 
     function Plugin($el, option) {
         var self = this;
@@ -67,6 +67,7 @@
         }
 
         $items.addClass('slide-item');
+
         this.$items = $items;
         $items.each(function() {
             var $this = $(this);
@@ -84,6 +85,10 @@
             width: ($items.length + param.scrollNum) * this.itemSize.width,
             height: ($items.length + param.scrollNum) * this.itemSize.height
         };
+
+        if(param.scrollType === 'fade'){
+            $items.eq(0).siblings().hide();
+        }
 
         this.locArr = this.getLocArr();
         this.isHor = param.scrollDir === 'horizontal' || param.scrollDir === 'hor';
@@ -241,6 +246,14 @@
                         always: function() {
                             self.animDone();
                         }
+                    });
+                } else if(param.scrollType === 'fade'){
+                    this.$items = this.$el.find('.slide-item');
+                    self.$items.filter('[data-id=' + this.currIndex + ']').fadeOut(300, function(){
+                        self.setCurrentIndex(index);
+                        self.$items.filter('[data-id=' + index + ']').fadeIn(1200, function(){
+                            self.animDone();
+                        });
                     });
                 }
             }

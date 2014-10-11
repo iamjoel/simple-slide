@@ -33,7 +33,7 @@
             </li>
         </ul>
     </div>
-      <div class="demo-slide" id = "scorllHorizontal2">
+    <div class="demo-slide" id = "scorllHorizontal2">
         <ul class="clearfix item-wrap">
             <li>
                 <a href="javascript:void(0);">
@@ -57,6 +57,32 @@
             </li>
         </ul>
     </div>
+
+    <div class="demo-slide" id = "fade-slide">
+        <ul class="clearfix item-wrap">
+            <li>
+                <a href="javascript:void(0);">
+                    <img src="imgs/1.jpg" class="slide-img">
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0);">
+                    <img src="imgs/2.jpg" class="slide-img">
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0);">
+                    <img src="imgs/3.jpg" class="slide-img">
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0);">
+                    <img src="imgs/4.jpg" class="slide-img">
+                </a>
+            </li>
+        </ul>
+    </div>
+
     <div class="demo-slide" id = "scorllVertical">
         <ul class="clearfix item-wrap">
             <li>
@@ -162,6 +188,13 @@
         $('#scorllHorizontal2').simpleSlide({
             interval: 1000,
             circle: false,
+            nav: 'number'
+        });
+        //切换效果为淡入淡出
+        $('#fade-slide').simpleSlide({
+            interval: 2000, //时间最好设的长一点，为了效果
+            circle: false,
+            scrollType:'fade',
             nav: 'number'
         });
         $('#scorllVertical').simpleSlide({
