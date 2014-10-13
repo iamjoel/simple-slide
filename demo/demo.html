@@ -182,20 +182,21 @@
         $('#scorllHorizontal').simpleSlide({
             interval: 1000,
             circle: false,
-            nav: 'dot'
+            navType: 'dot'
         });
         // 导航为方块的
         $('#scorllHorizontal2').simpleSlide({
             interval: 1000,
             circle: false,
-            nav: 'number'
+            navType: 'number',
+            navAlign: 'center'
         });
         //切换效果为淡入淡出
         $('#fade-slide').simpleSlide({
             interval: 2000, //时间最好设的长一点，为了效果
             circle: false,
             scrollType:'fade',
-            nav: 'number'
+            navType: 'number'
         });
         $('#scorllVertical').simpleSlide({
             interval: 1000,
@@ -205,7 +206,7 @@
             interval: 1000,
             scrollNum: 1,
             circle: true,
-            nav: 'dot',
+            navType: 'dot',
             $prevBtn: $('#prev-nav-btn'),
             $nextBtn: $('#next-nav-btn'),
             circle: true,
@@ -220,7 +221,7 @@
             interval: 2000,
             scrollNum: 2,
             circle: true,
-            nav: 'dot',
+            navType: 'dot',
             $prevBtn: $('#prev-nav-btn2'),
             $nextBtn: $('#next-nav-btn2'),
             circle: true,

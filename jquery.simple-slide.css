@@ -11,8 +11,13 @@
 .simple-slide-nav{
 	position: absolute;
 	bottom: 10px;
-	right: 20px;
 	z-index: 200;
+}
+.simple-slide-nav-right{
+	right :20px;
+}
+.simple-slide-nav-center{
+	left :40%;
 }
 .simple-slide-nav ul{
 	list-style: none;

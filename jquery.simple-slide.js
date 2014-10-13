@@ -7,7 +7,8 @@
     var defaultParam = {
         $items: false, //中间幻灯的border的宽度
         $itemWrap: false,
-        nav: false, // dot 点状的。设置false则没有导航
+        navType: false, // dot 点状的。设置false则没有导航
+        navAlign: 'right', // 对齐方式
         circle: false, // 循环播放
         interval: false,
         $prevBtn: false,
@@ -97,7 +98,7 @@
         this.$itemWrap = param.$itemWrap || $items.parent();
 
         this.initNavBtn();
-        if (param.nav) {
+        if (param.navType) {
             this.makeNav();
         }
         this.setCurrentIndex(0); // 下标从0开始
@@ -266,7 +267,7 @@
         },
         setCurrentIndex: function(currIndex) {
             this.currIndex = currIndex;
-            if (this.param.nav) {
+            if (this.param.navType) {
                 var $navs = this.$el.find('.simple-slide-nav li');
                 $navs.removeClass('current');
                 // console.log(currIndex / this.param.scrollNum);
@@ -294,7 +295,7 @@
         makeNav: function() {
             var self = this;
             var param = this.param;
-            var type = param.nav;
+            var type = param.navType;
             var template = navTemplate[type];
             var $wrap = template.getWrap();
             var makeItem = template.makeItem;
@@ -304,6 +305,7 @@
             }
             $wrap.find('ul').html(itemHtml.join(''));
             this.$itemWrap.after($wrap);
+            $wrap.addClass('simple-slide-nav-' + param.navAlign);
             $wrap.find('li').hover(function() {
                 self.turnTo($(this).index() * param.scrollNum);
             });
