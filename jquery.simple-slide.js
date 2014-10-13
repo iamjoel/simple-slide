@@ -221,7 +221,7 @@ jQuery.extend( jQuery.easing,
         scrollNum: 1, //滚动条目数
         scrollType: 'scroll', // 还支持fade
         scrollDir: 'horizontal', //水平，垂直 vertical
-        easing: 'easeOutSine', //动画缓动效果
+        easing: 'easeOutQuint', //动画缓动效果
         duration: 500, //动画持续时间
         prevDisabledFn: emptyFn, // 向前到底时 circle为false时有效
         nextDisabledFn: emptyFn //向后到底时
