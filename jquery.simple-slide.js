@@ -583,7 +583,6 @@ jQuery.extend( jQuery.easing,
     });
 
     $.fn.simpleSlide = function(option) {
-        new Plugin(this, option);
-        return this;
+        return new Plugin(this, option);;
     };
 })(jQuery, undefined);
