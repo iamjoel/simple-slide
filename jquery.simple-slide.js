@@ -5,202 +5,219 @@
  * to offer multiple easing options
  *
  * TERMS OF USE - jQuery Easing
- * 
- * Open source under the BSD License. 
- * 
+ *
+ * Open source under the BSD License.
+ *
  * Copyright 漏 2008 George McGinley Smith
  * All rights reserved.
- * 
- * Redistribution and use in source and binary forms, with or without modification, 
+ *
+ * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
- * 
- * Redistributions of source code must retain the above copyright notice, this list of 
+ *
+ * Redistributions of source code must retain the above copyright notice, this list of
  * conditions and the following disclaimer.
- * Redistributions in binary form must reproduce the above copyright notice, this list 
- * of conditions and the following disclaimer in the documentation and/or other materials 
+ * Redistributions in binary form must reproduce the above copyright notice, this list
+ * of conditions and the following disclaimer in the documentation and/or other materials
  * provided with the distribution.
- * 
- * Neither the name of the author nor the names of contributors may be used to endorse 
+ *
+ * Neither the name of the author nor the names of contributors may be used to endorse
  * or promote products derived from this software without specific prior written permission.
- * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY 
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
  * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
  *  COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
  *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED 
+ *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
  * AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
- * OF THE POSSIBILITY OF SUCH DAMAGE. 
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
-*/
+ */
 
 // t: current time, b: begInnIng value, c: change In value, d: duration
 jQuery.easing['jswing'] = jQuery.easing['swing'];
 
-jQuery.extend( jQuery.easing,
-{
+jQuery.extend(jQuery.easing, {
     def: 'easeOutQuad',
-    swing: function (x, t, b, c, d) {
+    swing: function(x, t, b, c, d) {
         //alert(jQuery.easing.default);
         return jQuery.easing[jQuery.easing.def](x, t, b, c, d);
     },
-    easeInQuad: function (x, t, b, c, d) {
-        return c*(t/=d)*t + b;
+    easeInQuad: function(x, t, b, c, d) {
+        return c * (t /= d) * t + b;
     },
-    easeOutQuad: function (x, t, b, c, d) {
-        return -c *(t/=d)*(t-2) + b;
+    easeOutQuad: function(x, t, b, c, d) {
+        return -c * (t /= d) * (t - 2) + b;
     },
-    easeInOutQuad: function (x, t, b, c, d) {
-        if ((t/=d/2) < 1) return c/2*t*t + b;
-        return -c/2 * ((--t)*(t-2) - 1) + b;
+    easeInOutQuad: function(x, t, b, c, d) {
+        if ((t /= d / 2) < 1) return c / 2 * t * t + b;
+        return -c / 2 * ((--t) * (t - 2) - 1) + b;
     },
-    easeInCubic: function (x, t, b, c, d) {
-        return c*(t/=d)*t*t + b;
+    easeInCubic: function(x, t, b, c, d) {
+        return c * (t /= d) * t * t + b;
     },
-    easeOutCubic: function (x, t, b, c, d) {
-        return c*((t=t/d-1)*t*t + 1) + b;
+    easeOutCubic: function(x, t, b, c, d) {
+        return c * ((t = t / d - 1) * t * t + 1) + b;
     },
-    easeInOutCubic: function (x, t, b, c, d) {
-        if ((t/=d/2) < 1) return c/2*t*t*t + b;
-        return c/2*((t-=2)*t*t + 2) + b;
+    easeInOutCubic: function(x, t, b, c, d) {
+        if ((t /= d / 2) < 1) return c / 2 * t * t * t + b;
+        return c / 2 * ((t -= 2) * t * t + 2) + b;
     },
-    easeInQuart: function (x, t, b, c, d) {
-        return c*(t/=d)*t*t*t + b;
+    easeInQuart: function(x, t, b, c, d) {
+        return c * (t /= d) * t * t * t + b;
     },
-    easeOutQuart: function (x, t, b, c, d) {
-        return -c * ((t=t/d-1)*t*t*t - 1) + b;
+    easeOutQuart: function(x, t, b, c, d) {
+        return -c * ((t = t / d - 1) * t * t * t - 1) + b;
     },
-    easeInOutQuart: function (x, t, b, c, d) {
-        if ((t/=d/2) < 1) return c/2*t*t*t*t + b;
-        return -c/2 * ((t-=2)*t*t*t - 2) + b;
+    easeInOutQuart: function(x, t, b, c, d) {
+        if ((t /= d / 2) < 1) return c / 2 * t * t * t * t + b;
+        return -c / 2 * ((t -= 2) * t * t * t - 2) + b;
     },
-    easeInQuint: function (x, t, b, c, d) {
-        return c*(t/=d)*t*t*t*t + b;
+    easeInQuint: function(x, t, b, c, d) {
+        return c * (t /= d) * t * t * t * t + b;
     },
-    easeOutQuint: function (x, t, b, c, d) {
-        return c*((t=t/d-1)*t*t*t*t + 1) + b;
+    easeOutQuint: function(x, t, b, c, d) {
+        return c * ((t = t / d - 1) * t * t * t * t + 1) + b;
     },
-    easeInOutQuint: function (x, t, b, c, d) {
-        if ((t/=d/2) < 1) return c/2*t*t*t*t*t + b;
-        return c/2*((t-=2)*t*t*t*t + 2) + b;
+    easeInOutQuint: function(x, t, b, c, d) {
+        if ((t /= d / 2) < 1) return c / 2 * t * t * t * t * t + b;
+        return c / 2 * ((t -= 2) * t * t * t * t + 2) + b;
     },
-    easeInSine: function (x, t, b, c, d) {
-        return -c * Math.cos(t/d * (Math.PI/2)) + c + b;
+    easeInSine: function(x, t, b, c, d) {
+        return -c * Math.cos(t / d * (Math.PI / 2)) + c + b;
     },
-    easeOutSine: function (x, t, b, c, d) {
-        return c * Math.sin(t/d * (Math.PI/2)) + b;
+    easeOutSine: function(x, t, b, c, d) {
+        return c * Math.sin(t / d * (Math.PI / 2)) + b;
     },
-    easeInOutSine: function (x, t, b, c, d) {
-        return -c/2 * (Math.cos(Math.PI*t/d) - 1) + b;
+    easeInOutSine: function(x, t, b, c, d) {
+        return -c / 2 * (Math.cos(Math.PI * t / d) - 1) + b;
     },
-    easeInExpo: function (x, t, b, c, d) {
-        return (t==0) ? b : c * Math.pow(2, 10 * (t/d - 1)) + b;
+    easeInExpo: function(x, t, b, c, d) {
+        return (t == 0) ? b : c * Math.pow(2, 10 * (t / d - 1)) + b;
     },
-    easeOutExpo: function (x, t, b, c, d) {
-        return (t==d) ? b+c : c * (-Math.pow(2, -10 * t/d) + 1) + b;
+    easeOutExpo: function(x, t, b, c, d) {
+        return (t == d) ? b + c : c * (-Math.pow(2, -10 * t / d) + 1) + b;
     },
-    easeInOutExpo: function (x, t, b, c, d) {
-        if (t==0) return b;
-        if (t==d) return b+c;
-        if ((t/=d/2) < 1) return c/2 * Math.pow(2, 10 * (t - 1)) + b;
-        return c/2 * (-Math.pow(2, -10 * --t) + 2) + b;
+    easeInOutExpo: function(x, t, b, c, d) {
+        if (t == 0) return b;
+        if (t == d) return b + c;
+        if ((t /= d / 2) < 1) return c / 2 * Math.pow(2, 10 * (t - 1)) + b;
+        return c / 2 * (-Math.pow(2, -10 * --t) + 2) + b;
     },
-    easeInCirc: function (x, t, b, c, d) {
-        return -c * (Math.sqrt(1 - (t/=d)*t) - 1) + b;
+    easeInCirc: function(x, t, b, c, d) {
+        return -c * (Math.sqrt(1 - (t /= d) * t) - 1) + b;
     },
-    easeOutCirc: function (x, t, b, c, d) {
-        return c * Math.sqrt(1 - (t=t/d-1)*t) + b;
+    easeOutCirc: function(x, t, b, c, d) {
+        return c * Math.sqrt(1 - (t = t / d - 1) * t) + b;
     },
-    easeInOutCirc: function (x, t, b, c, d) {
-        if ((t/=d/2) < 1) return -c/2 * (Math.sqrt(1 - t*t) - 1) + b;
-        return c/2 * (Math.sqrt(1 - (t-=2)*t) + 1) + b;
+    easeInOutCirc: function(x, t, b, c, d) {
+        if ((t /= d / 2) < 1) return -c / 2 * (Math.sqrt(1 - t * t) - 1) + b;
+        return c / 2 * (Math.sqrt(1 - (t -= 2) * t) + 1) + b;
     },
-    easeInElastic: function (x, t, b, c, d) {
-        var s=1.70158;var p=0;var a=c;
-        if (t==0) return b;  if ((t/=d)==1) return b+c;  if (!p) p=d*.3;
-        if (a < Math.abs(c)) { a=c; var s=p/4; }
-        else var s = p/(2*Math.PI) * Math.asin (c/a);
-        return -(a*Math.pow(2,10*(t-=1)) * Math.sin( (t*d-s)*(2*Math.PI)/p )) + b;
+    easeInElastic: function(x, t, b, c, d) {
+        var s = 1.70158;
+        var p = 0;
+        var a = c;
+        if (t == 0) return b;
+        if ((t /= d) == 1) return b + c;
+        if (!p) p = d * .3;
+        if (a < Math.abs(c)) {
+            a = c;
+            var s = p / 4;
+        } else var s = p / (2 * Math.PI) * Math.asin(c / a);
+        return -(a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
     },
-    easeOutElastic: function (x, t, b, c, d) {
-        var s=1.70158;var p=0;var a=c;
-        if (t==0) return b;  if ((t/=d)==1) return b+c;  if (!p) p=d*.3;
-        if (a < Math.abs(c)) { a=c; var s=p/4; }
-        else var s = p/(2*Math.PI) * Math.asin (c/a);
-        return a*Math.pow(2,-10*t) * Math.sin( (t*d-s)*(2*Math.PI)/p ) + c + b;
+    easeOutElastic: function(x, t, b, c, d) {
+        var s = 1.70158;
+        var p = 0;
+        var a = c;
+        if (t == 0) return b;
+        if ((t /= d) == 1) return b + c;
+        if (!p) p = d * .3;
+        if (a < Math.abs(c)) {
+            a = c;
+            var s = p / 4;
+        } else var s = p / (2 * Math.PI) * Math.asin(c / a);
+        return a * Math.pow(2, -10 * t) * Math.sin((t * d - s) * (2 * Math.PI) / p) + c + b;
     },
-    easeInOutElastic: function (x, t, b, c, d) {
-        var s=1.70158;var p=0;var a=c;
-        if (t==0) return b;  if ((t/=d/2)==2) return b+c;  if (!p) p=d*(.3*1.5);
-        if (a < Math.abs(c)) { a=c; var s=p/4; }
-        else var s = p/(2*Math.PI) * Math.asin (c/a);
-        if (t < 1) return -.5*(a*Math.pow(2,10*(t-=1)) * Math.sin( (t*d-s)*(2*Math.PI)/p )) + b;
-        return a*Math.pow(2,-10*(t-=1)) * Math.sin( (t*d-s)*(2*Math.PI)/p )*.5 + c + b;
+    easeInOutElastic: function(x, t, b, c, d) {
+        var s = 1.70158;
+        var p = 0;
+        var a = c;
+        if (t == 0) return b;
+        if ((t /= d / 2) == 2) return b + c;
+        if (!p) p = d * (.3 * 1.5);
+        if (a < Math.abs(c)) {
+            a = c;
+            var s = p / 4;
+        } else var s = p / (2 * Math.PI) * Math.asin(c / a);
+        if (t < 1) return -.5 * (a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
+        return a * Math.pow(2, -10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p) * .5 + c + b;
     },
-    easeInBack: function (x, t, b, c, d, s) {
+    easeInBack: function(x, t, b, c, d, s) {
         if (s == undefined) s = 1.70158;
-        return c*(t/=d)*t*((s+1)*t - s) + b;
+        return c * (t /= d) * t * ((s + 1) * t - s) + b;
     },
-    easeOutBack: function (x, t, b, c, d, s) {
+    easeOutBack: function(x, t, b, c, d, s) {
         if (s == undefined) s = 1.70158;
-        return c*((t=t/d-1)*t*((s+1)*t + s) + 1) + b;
+        return c * ((t = t / d - 1) * t * ((s + 1) * t + s) + 1) + b;
     },
-    easeInOutBack: function (x, t, b, c, d, s) {
-        if (s == undefined) s = 1.70158; 
-        if ((t/=d/2) < 1) return c/2*(t*t*(((s*=(1.525))+1)*t - s)) + b;
-        return c/2*((t-=2)*t*(((s*=(1.525))+1)*t + s) + 2) + b;
+    easeInOutBack: function(x, t, b, c, d, s) {
+        if (s == undefined) s = 1.70158;
+        if ((t /= d / 2) < 1) return c / 2 * (t * t * (((s *= (1.525)) + 1) * t - s)) + b;
+        return c / 2 * ((t -= 2) * t * (((s *= (1.525)) + 1) * t + s) + 2) + b;
     },
-    easeInBounce: function (x, t, b, c, d) {
-        return c - jQuery.easing.easeOutBounce (x, d-t, 0, c, d) + b;
+    easeInBounce: function(x, t, b, c, d) {
+        return c - jQuery.easing.easeOutBounce(x, d - t, 0, c, d) + b;
     },
-    easeOutBounce: function (x, t, b, c, d) {
-        if ((t/=d) < (1/2.75)) {
-            return c*(7.5625*t*t) + b;
-        } else if (t < (2/2.75)) {
-            return c*(7.5625*(t-=(1.5/2.75))*t + .75) + b;
-        } else if (t < (2.5/2.75)) {
-            return c*(7.5625*(t-=(2.25/2.75))*t + .9375) + b;
+    easeOutBounce: function(x, t, b, c, d) {
+        if ((t /= d) < (1 / 2.75)) {
+            return c * (7.5625 * t * t) + b;
+        } else if (t < (2 / 2.75)) {
+            return c * (7.5625 * (t -= (1.5 / 2.75)) * t + .75) + b;
+        } else if (t < (2.5 / 2.75)) {
+            return c * (7.5625 * (t -= (2.25 / 2.75)) * t + .9375) + b;
         } else {
-            return c*(7.5625*(t-=(2.625/2.75))*t + .984375) + b;
+            return c * (7.5625 * (t -= (2.625 / 2.75)) * t + .984375) + b;
         }
     },
-    easeInOutBounce: function (x, t, b, c, d) {
-        if (t < d/2) return jQuery.easing.easeInBounce (x, t*2, 0, c, d) * .5 + b;
-        return jQuery.easing.easeOutBounce (x, t*2-d, 0, c, d) * .5 + c*.5 + b;
+    easeInOutBounce: function(x, t, b, c, d) {
+        if (t < d / 2) return jQuery.easing.easeInBounce(x, t * 2, 0, c, d) * .5 + b;
+        return jQuery.easing.easeOutBounce(x, t * 2 - d, 0, c, d) * .5 + c * .5 + b;
     }
 });
 
 /*
  *
  * TERMS OF USE - EASING EQUATIONS
- * 
- * Open source under the BSD License. 
- * 
+ *
+ * Open source under the BSD License.
+ *
  * Copyright 漏 2001 Robert Penner
  * All rights reserved.
- * 
- * Redistribution and use in source and binary forms, with or without modification, 
+ *
+ * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
- * 
- * Redistributions of source code must retain the above copyright notice, this list of 
+ *
+ * Redistributions of source code must retain the above copyright notice, this list of
  * conditions and the following disclaimer.
- * Redistributions in binary form must reproduce the above copyright notice, this list 
- * of conditions and the following disclaimer in the documentation and/or other materials 
+ * Redistributions in binary form must reproduce the above copyright notice, this list
+ * of conditions and the following disclaimer in the documentation and/or other materials
  * provided with the distribution.
- * 
- * Neither the name of the author nor the names of contributors may be used to endorse 
+ *
+ * Neither the name of the author nor the names of contributors may be used to endorse
  * or promote products derived from this software without specific prior written permission.
- * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY 
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
  * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
  *  COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
  *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED 
+ *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
  * AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
- * OF THE POSSIBILITY OF SUCH DAMAGE. 
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
 (function($, undef) {
@@ -223,6 +240,8 @@ jQuery.extend( jQuery.easing,
         scrollDir: 'horizontal', //水平，垂直 vertical
         easing: 'easeOutQuint', //动画缓动效果
         duration: 500, //动画持续时间
+        prevTurnFn: emptyFn, //每次 幻灯切换前
+        afterTurnFn: emptyFn, //每次 幻灯切换后
         prevDisabledFn: emptyFn, // 向前到底时 circle为false时有效
         nextDisabledFn: emptyFn //向后到底时
     };
@@ -294,7 +313,7 @@ jQuery.extend( jQuery.easing,
             height: ($items.length + param.scrollNum) * this.itemSize.height
         };
 
-        if(param.scrollType === 'fade'){
+        if (param.scrollType === 'fade') {
             $items.eq(0).siblings().hide();
         }
 
@@ -328,7 +347,7 @@ jQuery.extend( jQuery.easing,
             self.stop();
         }, function() {
             if (param.interval && !isNaN(param.interval, 10)) {
-                self.runId = self.start();
+                self.start();
             }
         });
     }
@@ -357,15 +376,23 @@ jQuery.extend( jQuery.easing,
             return arr;
         },
         animDone: function() {
-            // console.log('anim done');
             this.isAnim = false;
-            if (this.nextAnimParam) {
+            if (this.nextAnimParam) {// 避免动画的堆积。只执行最近要执行的动画
                 this.turnTo.apply(this, this.nextAnimParam);
                 this.nextAnimParam = false;
             }
+            if(this.param.interval && !this.runId){
+                return;
+            }
+            this.param.afterTurnFn(this.currIndex);
         },
         // 第一张是0
-        turnTo: function(index, dir) {
+        turnTo: function(index, dir, forceTurn) {
+            if(!forceTurn){
+                if(this.param.interval && !this.runId){
+                    return;
+                }
+            }
             var self = this;
             if (this.isAnim) {
                 this.nextAnimParam = [].slice.call(arguments, 0);
@@ -378,6 +405,9 @@ jQuery.extend( jQuery.easing,
             if (index === currIndex) {
                 return;
             }
+            // console.log('turn to ' + currIndex);
+            param.prevTurnFn(currIndex);
+
 
             this.isAnim = true;
             dir = dir || 'next'; // 转动方向
@@ -459,22 +489,22 @@ jQuery.extend( jQuery.easing,
                             self.animDone();
                         }
                     });
-                } else if(param.scrollType === 'fade'){
+                } else if (param.scrollType === 'fade') {
                     this.$items = this.$el.find('.slide-item');
-                    self.$items.filter('[data-id=' + this.currIndex + ']').fadeOut(300, function(){
+                    self.$items.filter('[data-id=' + this.currIndex + ']').fadeOut(200, function() {
                         self.setCurrentIndex(index);
-                        self.$items.filter('[data-id=' + index + ']').fadeIn(1200, function(){
+                        self.$items.filter('[data-id=' + index + ']').fadeIn(200, function() {
                             self.animDone();
                         });
                     });
                 }
             }
         },
-        turnPrev: function() {
-            this.turn('prev');
+        turnPrev: function(forceTurn) {
+            this.turn('prev', forceTurn);
         },
-        turnNext: function() {
-            this.turn('next');
+        turnNext: function(forceTurn) {
+            this.turn('next', forceTurn);
         },
         setCurrentIndex: function(currIndex) {
             this.currIndex = currIndex;
@@ -485,13 +515,13 @@ jQuery.extend( jQuery.easing,
                 $navs.eq(currIndex / this.param.scrollNum).addClass('current');
             }
         },
-        turn: function(dir) {
+        turn: function(dir, forceTurn) {
             var fix = dir === 'prev' ? -1 : 1;
             var turnToIndex = this.currIndex + fix * this.param.scrollNum;
             if (!this.param.circle) {
                 var canTurn = turnToIndex === this.getValidIndex(turnToIndex);
                 if (canTurn) {
-                    this.turnTo(turnToIndex, dir);
+                    this.turnTo(turnToIndex, dir, forceTurn);
                 } else {
                     if (dir === -1) {
                         this.param.prevDisabledFn();
@@ -500,7 +530,7 @@ jQuery.extend( jQuery.easing,
                     }
                 }
             } else {
-                this.turnTo(turnToIndex, dir);
+                this.turnTo(turnToIndex, dir, forceTurn);
             }
         },
         makeNav: function() {
@@ -518,7 +548,10 @@ jQuery.extend( jQuery.easing,
             this.$itemWrap.after($wrap);
             $wrap.addClass('simple-slide-nav-' + param.navAlign);
             $wrap.find('li').hover(function() {
-                self.turnTo($(this).index() * param.scrollNum);
+                self.stop();
+                self.turnTo($(this).index() * param.scrollNum, false, true);
+            }, function(){
+                self.start();
             });
         },
         getValidIndex: function(index) {
@@ -546,25 +579,27 @@ jQuery.extend( jQuery.easing,
             var runNextId;
             if (param.$prevBtn) {
                 param.$prevBtn.click(function() {
-                    clearTimeout(runPrevId);
-                    runPrevId = setTimeout(function() {
-                        self.turnPrev();
-                    }, 200);
+                    // clearTimeout(runPrevId);
+                    // runPrevId = setTimeout(function() {
+                        // self.turnPrev();
+                    // }, 200);
+                    self.turnPrev(true);
                 });
             }
             if (param.$nextBtn) {
                 param.$nextBtn.click(function() {
-                    clearTimeout(runNextId);
-                    runNextId = setTimeout(function() {
-                        self.turnNext();
-                    }, 200);
+                    // clearTimeout(runNextId);
+                    // runNextId = setTimeout(function() {
+                    //     self.turnNext();
+                    // }, 200);
+                    self.turnNext(true);
                 });
             }
         },
         start: function() {
             var self = this;
             var param = this.param;
-            return setInterval(function() {
+            this.runId = setInterval(function() {
                 if (param.circle) {
                     self.turnNext();
                 } else {
@@ -576,9 +611,11 @@ jQuery.extend( jQuery.easing,
                     }
                 }
             }, this.param.interval);
+            return this.runId;
         },
         stop: function() {
             clearInterval(this.runId);
+            this.runId = false;
         }
     });
 
