@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>全屏slide demo</title>
+    <link rel="stylesheet" href="../jquery.simple-slide.css">
+    <link rel="stylesheet" href="fullpage.css">
+</head>
+
+<body>
+    <div class="des">最大1920，小于1000。在1920与1000之间，对图片的</div>
+    <div class="slide-wrap">
+        <div class="demo-slide">
+            <ul class="clearfix item-wrap">
+                <li>
+                    <a href="javascript:void(0);">
+                        <img src="imgs/1.jpg" class="slide-img">
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">
+                        <img src="imgs/2.jpg" class="slide-img">
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">
+                        <img src="imgs/3.jpg" class="slide-img">
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">
+                        <img src="imgs/4.jpg" class="slide-img">
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <script src="http://cdn.staticfile.org/jquery/1.11.1/jquery.min.js"></script>
+    <script src="../jquery.simple-slide.js"></script>
+    <script>
+    $(document).ready(function() {
+        var $slide = $('.demo-slide');
+        var $body = $('body');
+        var slideTolWidth = $slide.width();
+        var contentWidth = $slide.find('img').width();
+        $slide.simpleSlide({
+            interval: 2000,
+            circle: false,
+            navType: 'dot'
+        });
+
+        var $navs = $slide.find('.simple-slide-nav');
+
+        resetLoc();
+        function resetLoc(){
+            var left = -(slideTolWidth - $body.width())/2;
+            var navRight = (slideTolWidth - contentWidth)/2;
+            $slide.css({
+                left: left + 'px'
+            });
+            $navs.css({
+                right: navRight + 20 + 'px'
+            })
+        }
+
+        $(window).resize(resetLoc);
+
+
+    });
+    </script>
+</body>
+
+</html>
